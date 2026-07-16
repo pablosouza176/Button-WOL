@@ -1,0 +1,33 @@
+services:
+  button-wol:
+    build: .
+    image: button-wol:latest
+    container_name: button-wol
+    restart: unless-stopped
+    network_mode: host
+    mem_limit: 128m
+    memswap_limit: 128m
+
+    environment:
+      - WOL_MAC=<SEU_MAC_ADDRESS>
+
+    volumes:
+      - /DATA/AppData/wake-on-lan/wake_on_lan.sh:/scripts/wake_on_lan.sh:ro
+      - /DATA/AppData/wake-on-lan/shutdown.sh:/scripts/shutdown.sh:ro
+      - /DATA/AppData/wake-on-lan/id_rsa:/scripts/id_rsa:ro
+
+x-casaos:
+  main: button-wol
+  title:
+    en_us: Wake on LAN
+  description:
+    en_us: Ligue seu desktop remotamente com um clique via Wake on LAN.
+  icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/windows-11.png
+  index: /
+  scheme: http
+  port_map: "8081"
+  category: utilities
+  author: home-lab
+  version: "1.0.0"
+  tagline:
+    en_us: Magic packet sender for your home lab
